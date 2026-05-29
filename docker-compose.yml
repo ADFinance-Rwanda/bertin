@@ -1,0 +1,30 @@
+version: "3.9"
+name: task_manager
+
+services:
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    container_name: tm_keycloak
+    restart: unless-stopped
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_DB: dev-mem
+      KC_HEALTH_ENABLED: "true"
+      KC_METRICS_ENABLED: "true"
+      KC_HOSTNAME_STRICT: "false"
+      KC_HTTP_ENABLED: "true"
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import
+    ports:
+      - "6353:8080" # changing the port to mmminize port issue // confilcts with local ports in docker 
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/health/ready || exit 1"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+    networks:
+      - tm_net
