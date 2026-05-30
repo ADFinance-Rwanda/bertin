@@ -5,7 +5,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { KeycloakService } from 'keycloak-angular';
 import { routes } from './app.routes';
 import { authInterceptor } from './app/core/interceptors/auth.interceptor';
-import { environment } from '../src/environments/environment';
+import { environment } from './environments/environment';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return (): Promise<boolean> =>

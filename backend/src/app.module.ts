@@ -2,7 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD, APP_FILTER } from '@nestjs/core';
+import { AuthModule } from './auth/auth.module';
+import { TasksModule } from './tasks/tasks.module';
+import { AnalyticsModule } from './analytics/analytics.module';
+import { RedisModule } from './redis/redis.module';
 import { HealthModule } from './health/health.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { Task } from './tasks/task.entity';
 
@@ -26,9 +31,14 @@ import { Task } from './tasks/task.entity';
         logging: process.env.NODE_ENV !== 'production',
       }),
     }),
+    RedisModule,
+    AuthModule,
+    TasksModule,
+    AnalyticsModule,
     HealthModule,
   ],
   providers: [
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
   ],
 })

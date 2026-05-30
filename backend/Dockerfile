@@ -19,4 +19,4 @@ COPY --from=builder /app/migrations ./migrations
 RUN apk add --no-cache curl
 
 EXPOSE 6354
-CMD ["node", "dist/main"]
+CMD ["node", "dist/src/main"]
