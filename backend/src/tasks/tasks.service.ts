@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindOptionsWhere } from 'typeorm';
 import { Task, TaskStatus } from './task.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -16,12 +16,9 @@ export class TasksService {
   ) {}
 
   async findAll(ownerId: string, status?: TaskStatus): Promise<Task[]> {
-    const where: any = { owner_id: ownerId };
+    const where: FindOptionsWhere<Task> = { owner_id: ownerId };
     if (status) where.status = status;
-    return this.taskRepo.find({
-      where,
-      order: { created_at: 'DESC' },
-    });
+    return this.taskRepo.find({ where, order: { created_at: 'DESC' } });
   }
 
   async findOne(id: string, ownerId: string): Promise<Task> {

@@ -10,6 +10,8 @@ dist/
 
 # Build artifacts
 frontend/dist/
+frontend/.angular/
+frontend/node_modules/
 backend/dist/
 
 # IDE

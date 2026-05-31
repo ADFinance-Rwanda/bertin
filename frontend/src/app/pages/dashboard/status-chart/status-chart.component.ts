@@ -5,6 +5,13 @@ import { StatusData } from '../../../shared/models/analytics.model';
 
 Chart.register(ArcElement, PieController, Tooltip, Legend);
 
+const STATUS_COLORS = ['#94a3b8', '#3b82f6', '#22c55e'];
+const STATUS_LABELS: Record<string, string> = {
+  todo: 'To Do',
+  in_progress: 'In Progress',
+  done: 'Done',
+};
+
 @Component({
   selector: 'app-status-chart',
   standalone: true,
@@ -26,20 +33,31 @@ export class StatusChartComponent implements OnChanges, AfterViewInit {
   private chart: Chart | null = null;
   hasData = false;
 
-  ngAfterViewInit() { this.render(); }
-  ngOnChanges() { this.hasData = (this.data || []).some(d => d.count > 0); if (this.canvasRef) this.render(); }
+  ngAfterViewInit() {
+    this.render();
+  }
+
+  ngOnChanges() {
+    this.hasData = (this.data || []).some((d) => d.count > 0);
+    if (this.canvasRef) this.render();
+  }
 
   private render() {
     if (!this.canvasRef || !this.hasData) return;
     this.chart?.destroy();
-    const labels = this.data.map(d => ({ todo: 'To Do', in_progress: 'In Progress', done: 'Done' }[d.status] ?? d.status));
     this.chart = new Chart(this.canvasRef.nativeElement, {
       type: 'doughnut',
       data: {
-        labels,
-        datasets: [{ data: this.data.map(d => d.count), backgroundColor: ['#94a3b8', '#3b82f6', '#22c55e'] }],
+        labels: this.data.map((d) => STATUS_LABELS[d.status] ?? d.status),
+        datasets: [{
+          data: this.data.map((d) => d.count),
+          backgroundColor: STATUS_COLORS,
+        }],
       },
-      options: { responsive: true, plugins: { legend: { position: 'bottom' } } },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom' } },
+      },
     });
   }
 }

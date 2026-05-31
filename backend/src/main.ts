@@ -1,9 +1,10 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
@@ -19,7 +20,7 @@ async function bootstrap() {
     }),
   );
 
-  const config = new DocumentBuilder()
+  const swaggerConfig = new DocumentBuilder()
     .setTitle('Task Manager API')
     .setDescription('Dockerized Team Task Manager — REST API')
     .setVersion('1.0')
@@ -29,12 +30,11 @@ async function bootstrap() {
     )
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
+  SwaggerModule.setup('api/docs', app, SwaggerModule.createDocument(app, swaggerConfig));
 
   const port = process.env.PORT || 6354;
   await app.listen(port);
-  console.log(`Backend running on port ${port}`);
-  console.log(`Swagger: http://localhost:${port}/api/docs`);
+  logger.log(`Backend running on port ${port}`);
+  logger.log(`Swagger: http://localhost:${port}/api/docs`);
 }
 bootstrap();

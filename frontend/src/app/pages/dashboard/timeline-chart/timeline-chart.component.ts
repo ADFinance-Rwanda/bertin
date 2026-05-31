@@ -5,6 +5,9 @@ import { TimelineDataPoint } from '../../../shared/models/analytics.model';
 
 Chart.register(BarElement, BarController, CategoryScale, LinearScale, Tooltip, Legend);
 
+// adding a fixedd single color for the bars...... to ensure consitency with other pages
+const BAR_COLOR = '#3b82f6'; 
+
 @Component({
   selector: 'app-timeline-chart',
   standalone: true,
@@ -26,8 +29,14 @@ export class TimelineChartComponent implements OnChanges, AfterViewInit {
   private chart: Chart | null = null;
   hasData = false;
 
-  ngAfterViewInit() { this.render(); }
-  ngOnChanges() { this.hasData = (this.data || []).length > 0; if (this.canvasRef) this.render(); }
+  ngAfterViewInit() {
+    this.render();
+  }
+
+  ngOnChanges() {
+    this.hasData = (this.data || []).length > 0;
+    if (this.canvasRef) this.render();
+  }
 
   private render() {
     if (!this.canvasRef || !this.hasData) return;
@@ -35,10 +44,19 @@ export class TimelineChartComponent implements OnChanges, AfterViewInit {
     this.chart = new Chart(this.canvasRef.nativeElement, {
       type: 'bar',
       data: {
-        labels: this.data.map(d => d.date),
-        datasets: [{ label: 'Tasks Created', data: this.data.map(d => d.count), backgroundColor: '#3b82f6', borderRadius: 4 }],
+        labels: this.data.map((d) => d.date),
+        datasets: [{
+          label: 'Tasks Created',
+          data: this.data.map((d) => d.count),
+          backgroundColor: BAR_COLOR,
+          borderRadius: 4,
+        }],
       },
-      options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }, plugins: { legend: { display: false } } },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+      },
     });
   }
 }

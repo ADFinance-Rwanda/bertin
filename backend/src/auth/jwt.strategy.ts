@@ -4,6 +4,15 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { passportJwtSecret } from 'jwks-rsa';
 import { ConfigService } from '@nestjs/config';
 
+interface KeycloakJwtPayload {
+  sub: string;
+  email?: string;
+  preferred_username?: string;
+  given_name?: string;
+  family_name?: string;
+  realm_access?: { roles: string[] };
+}
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private config: ConfigService) {
@@ -22,12 +31,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       algorithms: ['RS256'],
       issuer: config.get<string>(
         'KEYCLOAK_REALM_URL',
-        'http://localhost:8080/realms/task-manager',
+        'http://localhost:6353/realms/task-manager',
       ),
     });
   }
 
-  async validate(payload: any) {
+  async validate(payload: KeycloakJwtPayload) {
     if (!payload?.sub) {
       throw new UnauthorizedException('Invalid token: missing sub claim');
     }
