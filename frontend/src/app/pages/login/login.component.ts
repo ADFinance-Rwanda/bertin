@@ -16,10 +16,6 @@ import { KeycloakService } from 'keycloak-angular';
         >
           Sign in with Keycloak
         </button>
-
-        <p class="mt-6 text-xs text-gray-400">
-          Test accounts: admin&#64;example.com / admin123 &nbsp;|&nbsp; user&#64;example.com / user123
-        </p>
       </div>
     </div>
   `,

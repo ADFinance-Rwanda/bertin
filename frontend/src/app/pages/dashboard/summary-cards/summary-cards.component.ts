@@ -16,23 +16,23 @@ import { SummaryData } from '../../../shared/models/analytics.model';
           <div class="text-xs text-gray-500 mt-0.5">Total Tasks</div>
         </div>
         <div class="stat-card">
-          <div class="text-2xl font-bold text-green-600">{{ summary.completion_pct }}%</div>
+          <div class="text-2xl font-bold text-gray-900">{{ summary.completion_pct }}%</div>
           <div class="text-xs text-gray-500 mt-0.5">Completion Rate</div>
         </div>
         <div class="stat-card">
-          <div class="text-2xl font-bold text-blue-600">{{ summary.in_progress }}</div>
+          <div class="text-2xl font-bold text-gray-900">{{ summary.in_progress }}</div>
           <div class="text-xs text-gray-500 mt-0.5">In Progress</div>
         </div>
         <div class="stat-card">
-          <div class="text-2xl font-bold text-green-500">{{ summary.done }}</div>
+          <div class="text-2xl font-bold text-gray-900 bg-green-300">{{ summary.done }}</div>
           <div class="text-xs text-gray-500 mt-0.5">Completed</div>
         </div>
         <div class="stat-card">
-          <div class="text-2xl font-bold text-red-500">{{ summary.overdue }}</div>
+          <div class="text-2xl font-bold text-gray-900 bg-red-300">{{ summary.overdue }}</div>
           <div class="text-xs text-gray-500 mt-0.5">Overdue</div>
         </div>
         <div class="stat-card">
-          <div class="text-2xl font-bold text-yellow-500">{{ summary.due_soon }}</div>
+          <div class="text-2xl font-bold text-gray-900 bg-yellow-300">{{ summary.due_soon }}</div>
           <div class="text-xs text-gray-500 mt-0.5">Due in 3 Days</div>
         </div>
       </div>

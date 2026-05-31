@@ -40,12 +40,10 @@ import { SummaryCardsComponent } from './summary-cards/summary-cards.component';
       </div>
 
       <!-- Charts grid -->
-      <div *ngIf="!loading" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div *ngIf="!loading" class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <app-summary-cards [summary]="summary" />
         <app-status-chart [data]="statusData" />
-        <div class="md:col-span-2">
-          <app-timeline-chart [data]="timelineData" />
-        </div>
+        <app-timeline-chart [data]="timelineData" />
       </div>
     </div>
   `,
